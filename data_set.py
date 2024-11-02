@@ -51,15 +51,15 @@ if __name__ == '__main__':
     )
 
     
-    d = open("Tensor_info.txt","w",encoding="utf-8")
+    # d = open("Tensor_info.txt","w",encoding="utf-8")
     a = MyDataSet(f"{path}\\DataSets\\images",transform=transform)
-    for i in range(a.__len__()):
-        Img, Type, img_path= a.__getitem__(i)
-        d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
+    # for i in range(a.__len__()):
+    #     Img, Type, img_path= a.__getitem__(i)
+    #     d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
     DataA = DataLoader(a, batch_size=32, shuffle=True) # 배치 설정
     # for i, j, k in DataA:
     #     # d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
     #     # d.write(f"i:{i}, j:{j}, k:{k}\n\n")
     #     print(f"i : {i.shape}, j : {j.shape}")
 
-    d.close()
+    # d.close()

@@ -5,7 +5,7 @@ from torchvision import transforms
 from torch.utils.data import DataLoader, random_split
 #커스텀 이미지 전처리 시키기
 class MyDataSet(Dataset):
-    def __init__(self, path):
+    def __init__(self, path, limit = None):
         self.path = path #파일 경로
         transform = transforms.Compose(
             [
@@ -16,6 +16,7 @@ class MyDataSet(Dataset):
             ]
         )
         self.transform = transform
+        self.limit = limit
 
         self.image_paths = [] #이미지 경로들
         self.imgTypes = [] #이미지 종류
@@ -32,8 +33,9 @@ class MyDataSet(Dataset):
                 self.image_paths.append(os.path.join(classPath,imgFile)) #사진의 절대경로
                 self.imgTypes.append(imgT) #이미지 종류
                 self.nums[imgT]+=1
-                if(self.nums[imgT]>=1000):
-                    break
+                if self.limit:
+                    if(self.nums[imgT]>=self.limit):
+                        break
         f.close()
         print(self.nums)
     def __len__(self):
@@ -69,12 +71,12 @@ if __name__ == '__main__':
     #     Img, Type, img_path= a.__getitem__(i)
     #     d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
     DataA = DataLoader(a, batch_size=BS, shuffle=True) # 배치 설정
-    for i, j in DataA:
-    #     # d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
-    #     # d.write(f"i:{i}, j:{j}, k:{k}\n\n")
-        print(f"i : {i.shape}, j : {j.shape}")
+    # for i, j in DataA:
+    # #     # d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
+    # #     # d.write(f"i:{i}, j:{j}, k:{k}\n\n")
+    #     print(f"i : {i.shape}, j : {j.shape}")
 
-    # d.close()
+    # # d.close()
 else:
     BS = 32
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))

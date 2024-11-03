@@ -2,15 +2,17 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from CNN_model import CNN
-from data_set import trainA, valA
+from data_set import trainA, valA, BS
 import os
 import time
+import datetime
 if __name__ == "__main__":
     f = open("TraningLog.txt","w",encoding='utf-8')
     # path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
 
-    model = CNN()
+
+    model = CNN(BS=BS)
     f.write(f"Model Load as {model}")
 
     criterion = nn.CrossEntropyLoss() #손실함수 사용
@@ -19,7 +21,7 @@ if __name__ == "__main__":
     f.write(f"LossFunc&optimizer Loaded")
     # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
     #학습(에포크, 손실계산)
-    num_ep = 10 #에포크 크기
+    num_ep = 15 #에포크 크기
     f.write(f"Epoch Size : {num_ep}--Training Start\n")
     for epoch in range(num_ep):
         for img, imgType in trainA:
@@ -56,7 +58,9 @@ if __name__ == "__main__":
         f.write(f"Validation Loss: {avrage_val_loss:.4f}, Accuracy: {accuracy:.4f}")
         f.write(f"Epoch [{epoch+1}/{num_ep}], Loss:{loss.item():.4f}\n")
     f.write(f"\nTraining_Done! Final Accuracy: {accuracy*100:.4f}%")
-    model_path = 'model.cnn'
+    now= datetime.datetime.now().strftime("%H-%M-%S-%f")
+    print(now)
+    model_path = f'model.V.{now}.cnn'
     torch.save(model.state_dict(),model_path)
     f.write(f"\nModel Saved at {model_path}")
     f.close()

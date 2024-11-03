@@ -18,8 +18,10 @@ class CNN(nn.Module):
 
         self.conv4 = nn.Conv2d(in_channels=64, out_channels=128, kernel_size=3, padding=1)
 
+        self.conv5 = nn.Conv2d(in_channels=128, out_channels=256, kernel_size=3, padding=1)
+
         #완전 연결층 만들기 :여기는 출력 크기 5로 고정 Linear => 선형회귀함수
-        self.fc1 = nn.Linear(128*8*8, self.BS*32)  #입력받을 텐서 크기(feature)
+        self.fc1 = nn.Linear(256*4*4, self.BS*32)  #입력받을 텐서 크기(feature)
         self.fc2 = nn.Linear(self.BS*32, self.BS)
         self.fc3 = nn.Linear(self.BS, 5) #5개의 타입으로 결과 나옴 
 
@@ -46,7 +48,11 @@ class CNN(nn.Module):
 
         x = F.relu(self.conv4(x))
         x = F.max_pool2d(x,2,2)
-        # print(f"4번째 x의 크기 : {x.shape}")
+        # print(f"네번째 x의 크기 : {x.shape}")
+
+        x = F.relu(self.conv5(x))
+        x = F.max_pool2d(x,2,2)
+        # print(f"다섯번째 x의 크기 : {x.shape}")
 
         # x = x.view(self.BS, -1) #완전연결층 입력 형식에 맞게 조정 (차원 한단계 낮춤 =>1D)
         x = torch.flatten(x, start_dim=1) #=>이게 view의 상위호환 => 텐서를 배치크기에 맞게 자동으로 평탄화해줌
@@ -54,13 +60,17 @@ class CNN(nn.Module):
 
         #완전연결층에 넣기
         x = F.relu(self.fc1(x))
-        # print(f"완전연결층 x의 크기 : {x.shape}")
+        # print(f"첫번째 완전연결층 x의 크기 : {x.shape}")
 
         x = self.dropout(x) #드롭아웃 적용
 
         x = F.relu(self.fc2(x))
 
+        # print(f"두번째 완전연결층 x의 크기 : {x.shape}")
+
         x = self.dropout(x)
+
+        # print(f"세번째 완전연결층 x의 크기 : {x.shape}")
 
         x= self.fc3(x)
         # print(f"클래스분류 x의 크기 : {x.shape}")

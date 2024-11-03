@@ -12,7 +12,7 @@ if __name__ == '__main__':
     testA = DataLoader(testSets, batch_size=128,drop_last=True)
     model = CNN(BS=128)
 
-    model_path = 'model-V014034881972.cnn'
+    model_path = 'model-V024201986894.cnn'
     device = "cpu"
     model = torch.load(model_path, map_location=device)
 

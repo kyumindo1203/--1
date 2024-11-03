@@ -80,7 +80,7 @@ if __name__ == '__main__':
 else:
     BS = 64
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-    a = MyDataSet(f"{path}\\DataSets\\images", limit=1000)
+    a = MyDataSet(f"{path}\\DataSets\\images")
     DataA = DataLoader(a, batch_size=32, shuffle=True)
     
     total_size = len(a)

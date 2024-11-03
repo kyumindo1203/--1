@@ -2,7 +2,7 @@ import os
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, random_split
 #커스텀 이미지 전처리 시키기
 class MyDataSet(Dataset):
     def __init__(self, path):
@@ -19,6 +19,7 @@ class MyDataSet(Dataset):
 
         self.image_paths = [] #이미지 경로들
         self.imgTypes = [] #이미지 종류
+        self.nums = [0]*5
         f = open("log.txt", "w",encoding="utf-8") #읽은 파일 로그
 
 
@@ -30,8 +31,11 @@ class MyDataSet(Dataset):
                 f.write(imgFile+"\n")
                 self.image_paths.append(os.path.join(classPath,imgFile)) #사진의 절대경로
                 self.imgTypes.append(imgT) #이미지 종류
+                self.nums[imgT]+=1
+                if(self.nums[imgT]>=1000):
+                    break
         f.close()
-
+        print(self.nums)
     def __len__(self):
         return len(self.image_paths) # 입력된 이미지 갯수
     
@@ -57,22 +61,31 @@ if __name__ == '__main__':
     #         transforms.ToTensor()
     #     ]
     # )
-
+    BS = 32
     
     # d = open("Tensor_info.txt","w",encoding="utf-8")
     a = MyDataSet(f"{path}\\DataSets\\images")
     # for i in range(a.__len__()):
     #     Img, Type, img_path= a.__getitem__(i)
     #     d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
-    DataA = DataLoader(a, batch_size=32, shuffle=True) # 배치 설정
+    DataA = DataLoader(a, batch_size=BS, shuffle=True) # 배치 설정
     for i, j in DataA:
     #     # d.write(f"(img:{Img}, type:{Type}, path:{img_path})\n")
     #     # d.write(f"i:{i}, j:{j}, k:{k}\n\n")
         print(f"i : {i.shape}, j : {j.shape}")
 
     # d.close()
-
 else:
+    BS = 32
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
     a = MyDataSet(f"{path}\\DataSets\\images")
     DataA = DataLoader(a, batch_size=32, shuffle=True)
+    
+    total_size = len(a)
+    train_size = int(0.8*total_size)#훈련셋 크기
+    val_size = total_size - train_size # 검증셋 크기
+
+    trainData, valData = random_split(a,[train_size,val_size]) #나누기
+
+    trainA = DataLoader(trainData, shuffle= True, batch_size=BS, drop_last=True)
+    valA = DataLoader(valData, shuffle=False, batch_size=BS, drop_last=True) #검증은 셔플 안하는게 좋다고함

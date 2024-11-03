@@ -1,0 +1,21 @@
+Model Load as CNN(
+  (conv1): Conv2d(3, 16, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv2): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (conv3): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (fc1): Linear(in_features=16384, out_features=32, bias=True)
+  (fc2): Linear(in_features=32, out_features=5, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)LossFunc&optimizer LoadedEpoch Size : 10--Training Start
+Validation Loss: 1.1248, Accuracy: 0.5070Epoch [1/10], Loss:1.1015
+Validation Loss: 0.9148, Accuracy: 0.6290Epoch [2/10], Loss:0.9392
+Validation Loss: 0.9016, Accuracy: 0.6250Epoch [3/10], Loss:0.8986
+Validation Loss: 0.8210, Accuracy: 0.6730Epoch [4/10], Loss:0.8853
+Validation Loss: 0.8221, Accuracy: 0.6520Epoch [5/10], Loss:0.7796
+Validation Loss: 0.7453, Accuracy: 0.6900Epoch [6/10], Loss:0.7335
+Validation Loss: 0.7215, Accuracy: 0.7190Epoch [7/10], Loss:0.7101
+Validation Loss: 0.7004, Accuracy: 0.7030Epoch [8/10], Loss:0.6752
+Validation Loss: 0.7000, Accuracy: 0.7160Epoch [9/10], Loss:0.6496
+Validation Loss: 0.6861, Accuracy: 0.7270Epoch [10/10], Loss:0.5117
+
+Training_Done! Final Accuracy: 72.7000%
+Model Saved at model.cnn

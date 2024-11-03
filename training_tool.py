@@ -7,7 +7,6 @@ import os
 import time
 import datetime
 if __name__ == "__main__":
-    f = open("TraningLog.txt","w",encoding='utf-8')
     # path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
     # if torch.cuda.is_available():
@@ -18,11 +17,14 @@ if __name__ == "__main__":
     #     device = torch.device("cpu")
 
     start_time = datetime.datetime.now()
+    f = open(f"TraningLog{start_time}.txt","w",encoding='utf-8')
 
     model = CNN(BS=BS)
     # model.to(device)
+    print(f"<Model Training Start at {start_time}>")
+    print(f"Model Load as {model}, Batch Size : {BS}")
     f.write(f"<Model Training Start at {start_time}>\n\n")
-    f.write(f"Model Load as {model}\n")
+    f.write(f"Model Load as {model}, Batch Size : {BS}\n")
 
     criterion = nn.CrossEntropyLoss() #손실함수 사용
     optimizer = torch.optim.Adam(model.parameters(),lr=0.001) #가중치 조절옵티마이저 설정
@@ -30,9 +32,10 @@ if __name__ == "__main__":
     f.write(f"LossFunc&optimizer Loaded")
     # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
     #학습(에포크, 손실계산)
-    num_ep = 10 #에포크 크기
+    num_ep = 12 #에포크 크기
     f.write(f"Epoch Size : {num_ep}--Training Start\n")
     for epoch in range(num_ep):
+        print(f"[training start]-{datetime.datetime.now()}")    
         for img, imgType in trainA:
             # print(f"input : {img.shape}, output : {imgType.shape}")
             #img가 입력, imgType이 정답
@@ -48,7 +51,7 @@ if __name__ == "__main__":
             loss.backward() #역전파
             optimizer.step()
             optimizer.zero_grad() #기울기 초기화
-        print(f"[training finished] Lastest Loss:{loss.item():.4f}")
+        print(f"[training finished]-{datetime.datetime.now()}\n Lastest Loss:{loss.item():.4f}")
         
         #평가    
         model.eval()

@@ -7,12 +7,12 @@ import os
 if __name__ == '__main__':
 
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-    testSets = MyDataSet(f"{path}\\DataSets\\testIMG")
+    testSets = MyDataSet(f"{path}\\DataSets\\testIMG", limit=200)
 
-    testA = DataLoader(testSets, batch_size=128,drop_last=True)
-    model = CNN(BS=128)
+    testA = DataLoader(testSets, batch_size=32,drop_last=True)
+    model = CNN(BS=32)
 
-    model_path = 'model-V024201986894.cnn'
+    model_path = 'model-V04040220487279.cnn'
     device = "cpu"
     model = torch.load(model_path, map_location=device)
 

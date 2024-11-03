@@ -21,7 +21,7 @@ if __name__ == "__main__":
     f.write(f"LossFunc&optimizer Loaded")
     # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
     #학습(에포크, 손실계산)
-    num_ep = 15 #에포크 크기
+    num_ep = 5 #에포크 크기
     f.write(f"Epoch Size : {num_ep}--Training Start\n")
     for epoch in range(num_ep):
         for img, imgType in trainA:
@@ -58,9 +58,9 @@ if __name__ == "__main__":
         f.write(f"Validation Loss: {avrage_val_loss:.4f}, Accuracy: {accuracy:.4f}")
         f.write(f"Epoch [{epoch+1}/{num_ep}], Loss:{loss.item():.4f}\n")
     f.write(f"\nTraining_Done! Final Accuracy: {accuracy*100:.4f}%")
-    now= datetime.datetime.now().strftime("%H-%M-%S-%f")
+    now= datetime.datetime.now().strftime("%H%M%S%f")
     print(now)
-    model_path = f'model.V.{now}.cnn'
-    torch.save(model.state_dict(),model_path)
+    model_path = f'model-V{now}.cnn'
+    torch.save(model, model_path)
     f.write(f"\nModel Saved at {model_path}")
     f.close()

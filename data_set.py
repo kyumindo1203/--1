@@ -63,7 +63,7 @@ if __name__ == '__main__':
     #         transforms.ToTensor()
     #     ]
     # )
-    BS = 32
+    BS = 64
     
     # d = open("Tensor_info.txt","w",encoding="utf-8")
     a = MyDataSet(f"{path}\\DataSets\\images")
@@ -78,9 +78,9 @@ if __name__ == '__main__':
 
     # # d.close()
 else:
-    BS = 32
+    BS = 64
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
-    a = MyDataSet(f"{path}\\DataSets\\images")
+    a = MyDataSet(f"{path}\\DataSets\\images", limit=1000)
     DataA = DataLoader(a, batch_size=32, shuffle=True)
     
     total_size = len(a)

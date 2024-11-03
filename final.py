@@ -9,11 +9,14 @@ if __name__ == '__main__':
     path = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
     testSets = MyDataSet(f"{path}\\DataSets\\testIMG")
 
-    testA = DataLoader(testSets, batch_size=32,drop_last=True)
-    model = CNN(BS=32)
+    testA = DataLoader(testSets, batch_size=128,drop_last=True)
+    model = CNN(BS=128)
 
-    model_path = 'model.cnn'
-    model.load_state_dict(torch.load(model_path))
+    model_path = 'model-V014034881972.cnn'
+    device = "cpu"
+    model = torch.load(model_path, map_location=device)
+
+
     criterion = nn.CrossEntropyLoss() #손실함수 사용
     model.eval()
     test_loss = 0
